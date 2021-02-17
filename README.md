@@ -5,106 +5,100 @@ Intersections, Feminism, Technology & Digital Humanities network (IFTe http://if
 
 led by [Olivia Jack](https://ojack.xyz)
 
-## Intro to hydra
+## Intro a hydra
 Hydra is a browser-based platform for live coding visuals, in which each connected browser window can be used as a node of a modular and distributed video synthesizer.
+Hydra es una plataforma basada en el navegador para el live-coding de visuales, donde cada ventana de navegador conectada puede ser usada como un nodo de un sintetizador de video modular y distribuido.
 
 Built using WebRTC (peer-to-peer web streaming) and WegGL, hydra allows each connected browser/device/person to output a video signal or stream, and receive and modify streams from other browsers/devices/people. The API is inspired by analog modular synthesis, in which multiple visual sources (oscillators, cameras, application windows, other connected windows) can be transformed, modulated, and composited via combining sequences of functions.
+Construido usando WebRTC (streaming web peer-to-peer) y WebGL, hydra permite a cada navegador/dispositivo/persona conectado sacar una señal de video o stream, y recibir y modificar streams de otros navegadores/dispositivos/personas. La API esta inspirada por la sintesis modular analoga, donde multiples fuentes de video (osciladores, camaras, ventanas de aplicaciones, etc) pueden ser transformadas, moduladas y compuestas mediante la combinacion de secuencias de funciones.
 
 ## Getting started
 
-Go to [https://hydra.ojack.xyz](https://hydra.ojack.xyz) (works best using Chrome or Chromium) and follow the instructions on screen.
+Anda a [https://hydra.ojack.xyz](https://hydra.ojack.xyz) (se recomienda Chrome o Chromium) y sigue las instrucciones en pantalla.
 
 Other editor commands:
-* CTRL-Enter: run a line of code
-* CTRL-Shift-Enter: run all code on screen (saves code to the URL)
-* ALT-Enter: run a block
-* CTRL-Shift-H: hide or show code
-* CTRL-Shift-F: format code using [Prettier](https://prettier.io/)
-* CTRL-Shift-S: Save screenshot and download as local file
-* CTRL-Shift-G: Share to the user gallery (if available). Shares to [@hydra_patterns](https://twitter.com/hydra_patterns)
+* CTRL-Enter: ejecutar una linea de codigo
+* CTRL-Shift-Enter: ejecutar todo el codigo (ademas lo guarda en la URL)
+* ALT-Enter: ejecutar un bloque de codigo
+* CTRL-Shift-H: ocultar o mostrar codigo
+* CTRL-Shift-F: formatear el codigo usando [Prettier](https://prettier.io/)
+* CTRL-Shift-S: guardar un screenshot y descargarlo como archivo
+* CTRL-Shift-G: compartir en la libreria de usuarios (si esta disponible). Shares to [@hydra_patterns](https://twitter.com/hydra_patterns)
 
 
-### Basic functions
-render an oscillator with parameters frequency, sync, and rgb offset. Type the following into the editor and then press 'CTRL-shift-Enter'
+### Funciones basicas
+Renderiza un oscilador con parametros de frecuencia, velocidad y offset rgb. Escribe lo siguiente en el editor y presiona 'CTRL-shift-Enter'
 ```
 osc(2, 0.1, 0.8).out()
 ```
-osc() renders the oscillator, and .out() tells the computer to send the output to the screen.
+osc() renderiza el oscilador, y .out() hace que se muestre en la pantalla.
 
-rotate the oscillator 0.8 radians:
+girar el oscilador 0.8 radianes
 ```
 osc(20, 0.1, 0.8).rotate(0.8).out()
 ```
-pixelate the output of the above function:
+pixelar la salida de la funcion anterior
 ```
 osc(20, 0.1, 0.8).rotate(0.8).pixelate(20, 30).out()
 ```
 
-Try experimenting with any of the functions under the 'source', 'geometry' or 'color' categories [here](https://ojack.xyz/hydra-functions/).
-Each chain of functions must always start with a 'source' function, and then can be followed by any number of 'geometry' and 'color' functions.
+Intenta experimentar con cualquiera de las funciones bajo las categorias de 'source', 'geometry' o 'color' [aqui](https://ojack.xyz/hydra-functions/).
+Cada cadena de funciones debe siempre empezar con una funcion de 'source', y despues aplicarle cualquier funcion o secuencia de funciones de 'color' y 'geometry'.
 ```
 gradient().rotate(0, 2.6).repeat(3, 3, 0.5).out()
 ```
 
 #### Using external sources
-In addition to internal sources for , such as osc(), shape(), gradient(),
-hydra can use external sources such as a webcam, window of another application, video,
+Ademas de las fuentes internas como osc(), shape(), gradient() y noise(), hydra puede usar fuentes externas como una webcam, ventanas de aplicaciones, videos, imagenes.
+Hay cuatro buffers de entrada que pueden conectarse a fuentes externas, llamados s0, s1, s2 y s3.
 
-There are four source buffers that can be used to connect to outside visuals, named s0, s1, s2, s3.
-
-init webcam in source buffer 's0':
+inicializar webcam en el buffer de entrada 's0':
 ```
-s0.initCam() // initialize a webcam in source buffer s0
+s0.initCam() 
 ```
 
-render the output of s0 to the screen
+renderiza la salida de s0 a la pantalla
 ```
 src(s0).out()
 ```
 
-webcam kaleidoscope:
+kaleidoscopio webcam:
 ```
-s0.initCam() // initialize a webcam in source buffer s0
-src(s0).kaleid(4).out() // render the webcam to a kaleidoscope
+s0.initCam() // inicializa una webcam en el buffer de entrada s0
+src(s0).kaleid(4).out() // transforma la webcam a un kaleidoscopio
 ```
-note that 's0.initCam()' only needs to be called once in order to initialize the camera
+Tener en cuenta que 's0.initCam()' solo necesita ejecutarse una vez para inicializar la webcam. Puedes borrar la linea una vez ya ejecutada.
 
-You can also use a browser tab or application window as an input texture (chrome only):
+Tambien puedes usar pestañas del navegador o ventanas de otras aplicaciones como una fuente de entrada (solo en navegadores basados en chrome):
 ```
 s1.initScreen()
 src(s1).out()
 ```
 
-render screen tab:
-```
-s0.initScreen()
-src(s0).out()
-```
 
+### Mezclar distintas fuentes
 
-### Blending sources together
+Por defecto, hydra permite generar cuatro distintos buffers de salida que pueden renderizar diferentes visuales. Los outputs son o0, o1, o2 y o3.
 
-By default, the environment contains four separate output buffers that can each render different graphics.  The outputs are accessed by the variables o0, o1, o2, and o3.
-
-render to output buffer o1:
+renderizar al buffer de salida o1:
 ```
 osc(8, 0.1, 0.3).out(o1)
-render(o1) // render the contents of o1
+render(o1) // renderiza los contenidos de o1
 ```
-If no output is specified in out(), the graphics are rendered to buffer o0.
-to show all render buffers at once:
+Si no se especifica el buffer de salida en out(), es renderizado al buffer o0.
+Para mostrar todos los buffers a la vez:
 ```
 render()
 ```
 
-Render the camera to output buffer o0, and an oscillator to output buffer o1:
+Renderiza la webcam al buffer de salida o0, y un oscilador al buffer de salida o1:
 ```
-s0.initCam() // initialize a webcam in source buffer s0
-src(s0).out(o0) // render the webcam in buffer o0
+s0.initCam() // inicializar la webcam en el buffer de entrada s0
+src(s0).out(o0) // renderizar la webcam al buffer de salida o0
 
 osc(8, 0.1, 0.3).out(o1)
 
-render() // show all four outputs
+render() // mostrar las cuatro salidas
 ```
 
 The output buffers can then be mixed and composited to produce what is shown on the screen.
