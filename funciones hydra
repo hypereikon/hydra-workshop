@@ -1,4 +1,4 @@
-generadores de textura
+##generadores de textura
 oscilador
 osc(frecuencia,velocidad,color)
 	frecuencia default (60)
