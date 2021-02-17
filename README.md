@@ -1,6 +1,8 @@
 # Olivia Jack - Workshop: Code and Democratic Tools
 Intersections, Feminism, Technology & Digital Humanities network (IFTe http://ifte.network/)
+
 13.11.2020
+
 led by [Olivia Jack](https://ojack.xyz)
 
 
