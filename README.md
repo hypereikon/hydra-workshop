@@ -6,10 +6,8 @@ Intersections, Feminism, Technology & Digital Humanities network (IFTe http://if
 led by [Olivia Jack](https://ojack.xyz)
 
 ## Intro a hydra
-Hydra is a browser-based platform for live coding visuals, in which each connected browser window can be used as a node of a modular and distributed video synthesizer.
-Hydra es una plataforma basada en el navegador para el live-coding de visuales, donde cada ventana de navegador conectada puede ser usada como un nodo de un sintetizador de video modular y distribuido.
+Hydra es una plataforma basada en el navegador para el live-coding de visuales, donde cada ventana de navegador conectada puede ser usada como un nodo de un sintetizador modular de video y distribuido.
 
-Built using WebRTC (peer-to-peer web streaming) and WegGL, hydra allows each connected browser/device/person to output a video signal or stream, and receive and modify streams from other browsers/devices/people. The API is inspired by analog modular synthesis, in which multiple visual sources (oscillators, cameras, application windows, other connected windows) can be transformed, modulated, and composited via combining sequences of functions.
 Construido usando WebRTC (streaming web peer-to-peer) y WebGL, hydra permite a cada navegador/dispositivo/persona conectado sacar una señal de video o stream, y recibir y modificar streams de otros navegadores/dispositivos/personas. La API esta inspirada por la sintesis modular analoga, donde multiples fuentes de video (osciladores, camaras, ventanas de aplicaciones, etc) pueden ser transformadas, moduladas y compuestas mediante la combinacion de secuencias de funciones.
 
 ## Getting started
@@ -101,15 +99,15 @@ osc(8, 0.1, 0.3).out(o1)
 render() // mostrar las cuatro salidas
 ```
 
-The output buffers can then be mixed and composited to produce what is shown on the screen.
-Start with buffer o0, blend with o1, and show the result at o2:
+Los buffers de salida puedes ser mezclados y compuestos.
+Empieza con el buffer o0, mezclalo con o1, y muestra el resultado en o2:
 ```
 src(o0).blend(o1).out(o2)
 ```
 
-The composite functions blend(), diff(), mult(), and add() perform arithmetic operations to combine the input texture color with the base texture color, similar to photoshop blend modes. See 'blend' functions at: https://ojack.xyz/hydra-functions/
+La funciones para mezclar blend(), diff(), mult() y add() performan operaciones aritmeticas para combinar la textura de entrada con la textura base, parecido a los modos de blend en photoshop. Revisa las funciones 'blend' en https://ojack.xyz/hydra-functions/
 
-You can also composite multiple sources together within the same output (no need to render to a separate buffer):
+Tambien puedes mezclar multiples entradas en una misma salida (sin necesariamente renderizar a otro buffer):
 ```
 osc(10)
   .rotate(0.5)
@@ -117,18 +115,18 @@ osc(10)
   .out()
 ```
 
-### Modulation
+### Modulacion
 
-While blending functions combine the colors of two sources, modulation functions use the colors of one texture to affect the coordinates of the other texture.
-This creates a sort of displacement or warping effect.
+Mientras que las funciones de mezclar combinan los colores de distintas fuentes, las funciones de modulacion usan los colores de una textura para afectar las coordinadas de la otra textura.
+Esto crea un tipo de displacement o efecto de warping.
 
-modulate(texture, amount) uses the red and green channels of the input texture to modify the x and y coordinates of the base texture. More about modulation at: https://lumen-app.com/guide/modulation/
+modulate(textura, cantidad) usa el canal rojo y verde de la textura de entrada para modificar las coordinadas x e y de la textura base. Mas informacion en: https://lumen-app.com/guide/modulation/
 ```
 osc(21, 0).modulate(o1).out(o0)
 osc(40).rotate(1.57).out(o1)
 ```
 
-You can also composite multiple sources together:
+Tambien puedes mezclar multiples fuentes:
 ```
 osc(10)
   .rotate(0.5)
@@ -136,27 +134,27 @@ osc(10)
   .out()
 ```
 
-## Connecting to remote streams
-Any hydra instance can use other instances/windows containing hydra as input sources, as long as they are connected to the internet and not blocked by a firewall. Hydra uses webrtc (real time webstreaming) under the hood to share video streams between open windows. The included module rtc-patch-bay manages connections between connected windows, and can also be used as a standalone module to convert any website into a source within hydra.
+## Conectarse a streams remotos
+Cualquier instancia de hydra puede usar otras instancias de hydra como fuente de entrada. Hydra usa webrtc (real time webstreaming) para compartir streams de video ente ventanas. EL modulo incluido rtc-patch-bay gestiona las conexiones entre ventanas conectadas, y tambien puede ser usado como un modulo por si solo para convertir cualquier sitio web en una fuente para Hydra.
 
-To begin, open hydra simultaneously in two separate windows.
-In one of the windows, set a name for the given patch-bay source:
+Para empezar, abre hydra simultaneamente en dos ventanas separadas.
+En una de ellas, setea el nombre para el stream:
 ```
-pb.setName("myGraphics")
+pb.setName("ola")
 ```
-The title of the window should change to the name entered in setName().
+El titulo de la ventana deberia cambiar al nombre seteado al ser ejecutado lo anterior.
 
-From the other window, initiate "myGraphics" as a source stream.
+Desde la otra ventana, inicializas el stream mediante .initStream().
 ```
-s0.initStream("myGraphics")
+s0.initStream("ola")
 ```
-render to screen:
+renderizarlo:
 ```
 s0.initStream("myGraphics")
 src(s0).out()
 ```
-The connections sometimes take a few seconds to be established; open the browser console to see progress.
-To list available sources, type the following in the console:
+Las conexiones a veces toman un tiempo en establecerse; puedes revisar la consola del navegador para ver el progreso.
+Para ver las fuentes disponibles, ejecuta lo siguiente en la consola:
 ```
 pb.list()
 ```
