@@ -1,8 +1,6 @@
 # Olivia Jack - Workshop: Code and Democratic Tools
 Intersections, Feminism, Technology & Digital Humanities network (IFTe http://ifte.network/) led by [Olivia Jack](https://ojack.xyz)
 
-13.11.2020
-
 Traducido por hypereikon
 ## Intro a hydra
 Hydra es una plataforma basada en el navegador para el live-coding de visuales, donde cada ventana de navegador conectada puede ser usada como un nodo de un sintetizador modular de video y distribuido.
